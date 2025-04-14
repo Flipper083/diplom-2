@@ -28,7 +28,7 @@ public class ClientDeleteTest {
 
     @Test
     @DisplayName("Client delete by valid credentials") // Название теста для отображения в отчетах
-    public void clientDeleteByValidCredentials() {
+    public void clientDeleteByValidCredentialsTest() {
         ValidatableResponse response = userClient.createClient(client); // Создаем клиента через API и получаем ответ
         String accessToken = response.extract().path("accessToken");
         response = userClient.deleteClient(StringUtils.substringAfter(accessToken, " ")); // Удаляем клиента по accessToken

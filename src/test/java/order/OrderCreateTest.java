@@ -59,7 +59,7 @@ public class OrderCreateTest {
     // Тест: Создание заказа с авторизацией
     @Test
     @DisplayName("Create order by authorization")
-    public void orderCreateByAuthorization() {
+    public void orderCreateByAuthorizationTest() {
         fillListIngredients(); // Добавляем ингредиенты в заказ
         // Создаем клиента через API и получаем токен
         response = userClient.createClient(client);
@@ -86,7 +86,7 @@ public class OrderCreateTest {
     // Тест: Создание заказа без авторизации
     @Test
     @DisplayName("Create order without authorization")
-    public void orderCreateWithoutAuthorization() {
+    public void orderCreateWithoutAuthorizationTest() {
         fillListIngredients(); // Добавляем ингредиенты в заказ
         // Создаем заказ без авторизации
         response = orderClient.createOrderWithoutAuthorization(order);
@@ -104,7 +104,7 @@ public class OrderCreateTest {
     // Тест: Создание заказа без авторизации и без ингредиентов
     @Test
     @DisplayName("Create order without authorization and ingredients")
-    public void orderCreateWithoutAuthorizationAndIngredients() {
+    public void orderCreateWithoutAuthorizationAndIngredientsTest() {
         // Создаем заказ без авторизации и без ингредиентов
         response = orderClient.createOrderWithoutAuthorization(order);
         // Извлекаем данные из ответа
@@ -121,7 +121,7 @@ public class OrderCreateTest {
     // Тест: Создание заказа без авторизации с некорректным хешом ингредиента
     @Test
     @DisplayName("Create order without authorization and change hash ingredient")
-    public void orderCreateWithoutAuthorizationAndChangeHashIngredient() {
+    public void orderCreateWithoutAuthorizationAndChangeHashIngredientTest() {
         // Получаем список ингредиентов через API
         response = orderClient.getAllIngredients();
         List<String> list = response.extract().path("data._id");

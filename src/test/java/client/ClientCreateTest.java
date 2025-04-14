@@ -30,7 +30,7 @@ public class ClientCreateTest {
 
     @Test
     @DisplayName("Client create by valid credentials")
-    public void clientCreateByValidCredentials() {
+    public void clientCreateByValidCredentialsTest() {
         response = userClient.createClient(client); // Создаем клиента через API
         int statusCode = response.extract().statusCode(); // Извлекаем статус код ответа
         boolean isCreate = response.extract().path("success"); // Проверяем успешность создания клиента
@@ -44,7 +44,7 @@ public class ClientCreateTest {
 
     @Test
     @DisplayName("Client create is empty email")
-    public void clientCreateIsEmptyEmail() {
+    public void clientCreateIsEmptyEmailTest() {
         client.setEmail(null); // Устанавливаем email клиента в null
         response = userClient.createClient(client); // Пытаемся создать клиента
         int statusCode = response.extract().statusCode(); // Извлекаем статус код ответа
@@ -59,7 +59,7 @@ public class ClientCreateTest {
 
     @Test
     @DisplayName("Client create is empty password")
-    public void clientCreateIsEmptyPassword() {
+    public void clientCreateIsEmptyPasswordTest() {
         client.setPassword(null); // Устанавливаем пароль клиента в null
         response = userClient.createClient(client); // Пытаемся создать клиента
         int statusCode = response.extract().statusCode(); // Извлекаем статус код ответа
@@ -74,7 +74,7 @@ public class ClientCreateTest {
 
     @Test
     @DisplayName("Client create is empty name")
-    public void clientCreateIsEmptyName() {
+    public void clientCreateIsEmptyNameTest() {
         client.setName(null); // Устанавливаем имя клиента в null
         response = userClient.createClient(client); // Пытаемся создать клиента
         int statusCode = response.extract().statusCode(); // Извлекаем статус код ответа
@@ -89,7 +89,7 @@ public class ClientCreateTest {
 
     @Test
     @DisplayName("Repeated request by create client")
-    public void repeatedRequestByCreateClient() {
+    public void repeatedRequestByCreateClientTest() {
         userClient.createClient(client); // Создаем клиента
         response = userClient.createClient(client); // Пытаемся создать клиента повторно
         int statusCode = response.extract().statusCode(); // Извлекаем статус код ответа

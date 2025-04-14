@@ -33,7 +33,7 @@ public class ClientGetTest {
 
     @Test
     @DisplayName("Get client by valid credentials")
-    public void clientGetByValidCredentials() {
+    public void clientGetByValidCredentialsTest() {
         ValidatableResponse response = userClient.createClient(client); // Создаем клиента через API и получаем ответ
         accessToken = response.extract().path("accessToken"); // Извлекаем accessToken из ответа
         response = userClient.getClient(accessToken); // Получаем информацию о клиенте по accessToken

@@ -62,7 +62,7 @@ public class OrderGetTest {
     // Тест для получения всех ингредиентов
     @Test
     @DisplayName("Get all ingredients")
-    public void getAllIngredients() {
+    public void getAllIngredientsTest() {
         // Получаем все ингредиенты
         response = orderClient.getAllIngredients();
         // Извлекаем статус-код и проверяем успешность запроса
@@ -78,7 +78,7 @@ public class OrderGetTest {
     // Тест для получения заказа с авторизацией клиента
     @Test
     @DisplayName("Get order by authorization client")
-    public void getOrderByAuthorizationClient() {
+    public void getOrderByAuthorizationClientTest() {
         // Создаем клиента и получаем токен доступа
         response = userClient.createClient(client);
         String accessToken = response.extract().path("accessToken");
@@ -103,7 +103,7 @@ public class OrderGetTest {
     // Тест для получения заказа без авторизации клиента
     @Test
     @DisplayName("Get order without authorization client")
-    public void getOrderWithoutAuthorizationUser() {
+    public void getOrderWithoutAuthorizationUserTest() {
         // Создаем заказ без авторизации
         response = orderClient.createOrderWithoutAuthorization(order);
         // Пытаемся получить заказы без авторизации

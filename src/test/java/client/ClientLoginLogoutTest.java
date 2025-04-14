@@ -92,7 +92,7 @@ public class ClientLoginLogoutTest {
 
     @Test
     @DisplayName("Client login is empty password")
-    public void clientLoginByEmptyPassword() {
+    public void clientLoginByEmptyPasswordTest() {
         response = userClient.createClient(client); // Создаем клиента через API
         accessToken = response.extract().path("accessToken"); // Извлекаем accessToken
         client.setPassword(null); // Устанавливаем пароль клиента в null

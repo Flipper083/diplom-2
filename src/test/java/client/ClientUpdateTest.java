@@ -40,7 +40,7 @@ public class ClientUpdateTest {
 
     @Test
     @DisplayName("Update client by authorization") // Название теста
-    public void updateClientByAuthorization() {
+    public void updateClientByAuthorizationTest() {
         // Создаем нового клиента
         response = userClient.createClient(client);
         // Извлекаем токен доступа из ответа
@@ -63,7 +63,7 @@ public class ClientUpdateTest {
 
     @Test
     @DisplayName("Update client without authorization") // Название теста
-    public void updateClientWithoutAuthorization() {
+    public void updateClientWithoutAuthorizationTest() {
         // Создаем нового клиента
         response = userClient.createClient(client);
         // Извлекаем токен доступа из ответа
