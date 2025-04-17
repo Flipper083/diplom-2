@@ -1,6 +1,7 @@
 package client;
 
 import io.qameta.allure.Epic;
+import io.qameta.allure.Description; // Импортируем аннотацию Description
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.apache.commons.lang3.StringUtils;
@@ -30,27 +31,30 @@ public class ClientUpdateTest {
         // Генерация случайного клиента перед каждым тестом
         client = ClientGenerator.getRandomClient();
         userClient = new UserClient(); // Инициализация API клиента
+
+        // Создаем нового клиента и получаем токен доступа
+        response = userClient.createClient(client);
+        accessToken = response.extract().path("accessToken");
     }
 
     @After
     public void clearState() {
         // Удаление клиента после теста, используя токен доступа
-        userClient.deleteClient(StringUtils.substringAfter(accessToken, " "));
+        if (accessToken != null) {
+            userClient.deleteClient(StringUtils.substringAfter(accessToken, " "));
+        }
     }
 
     @Test
     @DisplayName("Update client by authorization") // Название теста
+    @Description("This test verifies that a client can update their information with valid authorization.")
     public void updateClientByAuthorizationTest() {
-        // Создаем нового клиента
-        response = userClient.createClient(client);
-        // Извлекаем токен доступа из ответа
-        accessToken = response.extract().path("accessToken");
-
         // Логиним клиента с использованием токена
         response = userClient.loginClient(client, accessToken);
 
         // Обновляем информацию клиента по авторизованному запросу
-        response = userClient.updateClientByAuthorization(ClientGenerator.getRandomClient(), accessToken);
+        Client updatedClient = ClientGenerator.getRandomClient();
+        response = userClient.updateClientByAuthorization(updatedClient, accessToken);
 
         // Извлекаем статус-код и данные о успешности обновления
         int statusCode = response.extract().statusCode();
@@ -59,16 +63,60 @@ public class ClientUpdateTest {
         // Проверяем успешность обновления
         assertThat("Code not equal", statusCode, equalTo(SC_OK)); // Статус ответа должен быть 200 OK
         assertThat("Client is update incorrect", isUpdate, equalTo(true)); // Ответ должен подтверждать успешное обновление
+
+        // Проверяем, что обновленные данные корректны
+        assertThat("Email not updated", response.extract().path("client.email"), equalTo(updatedClient.getEmail()));
+        assertThat("Name not updated", response.extract().path("client.name"), equalTo(updatedClient.getName()));
+    }
+
+    @Test
+    @DisplayName("Update client email by authorization") // Название теста
+    @Description("This test verifies that a client can update their email with valid authorization.")
+    public void updateClientEmailByAuthorizationTest() {
+        // Логиним клиента с использованием токена
+        response = userClient.loginClient(client, accessToken);
+
+        // Обновляем email клиента
+        String newEmail = "newemail@example.com";
+        client.setEmail(newEmail);
+        response = userClient.updateClientByAuthorization(client, accessToken);
+
+        // Извлекаем статус-код и данные о успешности обновления
+        int statusCode = response.extract().statusCode();
+        boolean isUpdate = response.extract().path("success");
+
+        // Проверяем успешность обновления
+        assertThat("Code not equal", statusCode, equalTo(SC_OK));
+        assertThat("Client is update incorrect", isUpdate, equalTo(true));
+        assertThat("Email not updated", response.extract().path("client.email"), equalTo(newEmail)); // Проверка обновленного email
+    }
+
+    @Test
+    @DisplayName("Update client name by authorization") // Название теста
+    @Description("This test verifies that a client can update their name with valid authorization.")
+    public void updateClientNameByAuthorizationTest() {
+        // Логиним клиента с использованием токена
+        response = userClient.loginClient(client, accessToken);
+
+        // Обновляем имя клиента
+        String newName = "New Name";
+        client.setName(newName);
+        response = userClient.updateClientByAuthorization(client, accessToken);
+
+        // Извлекаем статус-код и данные о успешности обновления
+        int statusCode = response.extract().statusCode();
+        boolean isUpdate = response.extract().path("success");
+
+        // Проверяем успешность обновления
+        assertThat("Code not equal", statusCode, equalTo(SC_OK));
+        assertThat("Client is update incorrect", isUpdate, equalTo(true));
+        assertThat("Name not updated", response.extract().path("client.name"), equalTo(newName)); // Проверка обновленного имени
     }
 
     @Test
     @DisplayName("Update client without authorization") // Название теста
+    @Description("This test verifies that a client cannot update their information without authorization.")
     public void updateClientWithoutAuthorizationTest() {
-        // Создаем нового клиента
-        response = userClient.createClient(client);
-        // Извлекаем токен доступа из ответа
-        accessToken = response.extract().path("accessToken");
-
         // Пытаемся обновить информацию клиента без авторизации
         response = userClient.updateClientWithoutAuthorization(ClientGenerator.getRandomClient());
 

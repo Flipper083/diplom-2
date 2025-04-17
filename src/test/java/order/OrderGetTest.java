@@ -1,6 +1,7 @@
 package order;
 
 import io.qameta.allure.Epic;
+import io.qameta.allure.Description; // Импортируем аннотацию Description
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.apache.commons.lang3.StringUtils;
@@ -45,7 +46,6 @@ public class OrderGetTest {
         ingredients.add(list.get(0)); // Добавляем первый ингредиент снова
     }
 
-    // Метод, выполняющийся перед каждым тестом для настройки тестового окружения
     @Before
     public void setUp() {
         // Генерируем случайного клиента
@@ -59,9 +59,9 @@ public class OrderGetTest {
         fillListIngredients();
     }
 
-    // Тест для получения всех ингредиентов
     @Test
     @DisplayName("Get all ingredients")
+    @Description("This test verifies that all ingredients can be retrieved successfully.")
     public void getAllIngredientsTest() {
         // Получаем все ингредиенты
         response = orderClient.getAllIngredients();
@@ -75,9 +75,9 @@ public class OrderGetTest {
         assertThat("Ingredients is get incorrect", isGet, equalTo(true));
     }
 
-    // Тест для получения заказа с авторизацией клиента
     @Test
     @DisplayName("Get order by authorization client")
+    @Description("This test verifies that a client can retrieve their order with valid authorization.")
     public void getOrderByAuthorizationClientTest() {
         // Создаем клиента и получаем токен доступа
         response = userClient.createClient(client);
@@ -100,9 +100,9 @@ public class OrderGetTest {
         assertThat("Order is get incorrect", isGet, equalTo(true));
     }
 
-    // Тест для получения заказа без авторизации клиента
     @Test
     @DisplayName("Get order without authorization client")
+    @Description("This test verifies that a client cannot retrieve their order without authorization.")
     public void getOrderWithoutAuthorizationUserTest() {
         // Создаем заказ без авторизации
         response = orderClient.createOrderWithoutAuthorization(order);

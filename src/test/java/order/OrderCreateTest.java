@@ -1,6 +1,7 @@
 package order;
 
 import io.qameta.allure.Epic;
+import io.qameta.allure.Description; // Импортируем аннотацию Description
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +19,6 @@ import static org.apache.http.HttpStatus.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-
 
 @Epic("Create order")
 public class OrderCreateTest {
@@ -45,7 +45,6 @@ public class OrderCreateTest {
         ingredients.add(list.get(0));
     }
 
-    // Метод для настройки перед каждым тестом
     @Before
     public void setUp() {
         // Генерация случайного клиента и создание нового заказа
@@ -56,9 +55,9 @@ public class OrderCreateTest {
         orderClient = new OrderClient();
     }
 
-    // Тест: Создание заказа с авторизацией
     @Test
     @DisplayName("Create order by authorization")
+    @Description("This test verifies that a client can create an order with valid authorization.")
     public void orderCreateByAuthorizationTest() {
         fillListIngredients(); // Добавляем ингредиенты в заказ
         // Создаем клиента через API и получаем токен
@@ -83,9 +82,9 @@ public class OrderCreateTest {
         assertThat("Order id is null", orderId, notNullValue());
     }
 
-    // Тест: Создание заказа без авторизации
     @Test
     @DisplayName("Create order without authorization")
+    @Description("This test verifies that a client can create an order without authorization.")
     public void orderCreateWithoutAuthorizationTest() {
         fillListIngredients(); // Добавляем ингредиенты в заказ
         // Создаем заказ без авторизации
@@ -101,9 +100,9 @@ public class OrderCreateTest {
         assertThat("Order number is null", orderNumber, notNullValue());
     }
 
-    // Тест: Создание заказа без авторизации и без ингредиентов
     @Test
     @DisplayName("Create order without authorization and ingredients")
+    @Description("This test verifies that an error is returned when creating an order without authorization and without ingredients.")
     public void orderCreateWithoutAuthorizationAndIngredientsTest() {
         // Создаем заказ без авторизации и без ингредиентов
         response = orderClient.createOrderWithoutAuthorization(order);
@@ -118,9 +117,9 @@ public class OrderCreateTest {
         assertThat("Order is create correct", isCreate, equalTo(false));
     }
 
-    // Тест: Создание заказа без авторизации с некорректным хешом ингредиента
     @Test
     @DisplayName("Create order without authorization and change hash ingredient")
+    @Description("This test verifies that an error is returned when creating an order without authorization with an invalid ingredient hash.")
     public void orderCreateWithoutAuthorizationAndChangeHashIngredientTest() {
         // Получаем список ингредиентов через API
         response = orderClient.getAllIngredients();

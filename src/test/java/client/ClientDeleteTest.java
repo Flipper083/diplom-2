@@ -1,6 +1,7 @@
 package client;
 
 import io.qameta.allure.Epic;
+import io.qameta.allure.Description; // Импортируем аннотацию Description
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.apache.commons.lang3.StringUtils;
@@ -9,6 +10,7 @@ import org.example.utils.ClientGenerator;
 import org.example.api.UserClient;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.apache.http.HttpStatus.SC_ACCEPTED;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -27,7 +29,8 @@ public class ClientDeleteTest {
     }
 
     @Test
-    @DisplayName("Client delete by valid credentials") // Название теста для отображения в отчетах
+    @DisplayName("Client delete by valid credentials")
+    @Description("This test checks the deletion of a client with valid credentials.")
     public void clientDeleteByValidCredentialsTest() {
         ValidatableResponse response = userClient.createClient(client); // Создаем клиента через API и получаем ответ
         String accessToken = response.extract().path("accessToken");

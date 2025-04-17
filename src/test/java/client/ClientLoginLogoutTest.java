@@ -1,6 +1,7 @@
 package client;
 
 import io.qameta.allure.Epic;
+import io.qameta.allure.Description; // Импортируем аннотацию Description
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.apache.commons.lang3.StringUtils;
@@ -39,6 +40,7 @@ public class ClientLoginLogoutTest {
 
     @Test
     @DisplayName("Client login by valid credentials")
+    @Description("This test verifies that a client can log in with valid credentials.")
     public void clientLoginByValidCredentials() {
         response = userClient.createClient(client); // Создаем клиента через API и получаем ответ
         accessToken = response.extract().path("accessToken"); // Извлекаем accessToken из ответа
@@ -54,6 +56,7 @@ public class ClientLoginLogoutTest {
 
     @Test
     @DisplayName("Client logout by valid credentials")
+    @Description("This test verifies that a client can log out successfully with valid credentials.")
     public void clientLogoutByValidCredentials() {
         response = userClient.createClient(client); // Создаем клиента через API
         accessToken = response.extract().path("accessToken"); // Извлекаем accessToken
@@ -74,6 +77,7 @@ public class ClientLoginLogoutTest {
 
     @Test
     @DisplayName("Client login is empty email")
+    @Description("This test verifies that a client cannot log in with an empty email.")
     public void clientLoginByEmptyEmail() {
         response = userClient.createClient(client); // Создаем клиента через API
         accessToken = response.extract().path("accessToken"); // Извлекаем accessToken
@@ -92,6 +96,7 @@ public class ClientLoginLogoutTest {
 
     @Test
     @DisplayName("Client login is empty password")
+    @Description("This test verifies that a client cannot log in with an empty password.")
     public void clientLoginByEmptyPasswordTest() {
         response = userClient.createClient(client); // Создаем клиента через API
         accessToken = response.extract().path("accessToken"); // Извлекаем accessToken
